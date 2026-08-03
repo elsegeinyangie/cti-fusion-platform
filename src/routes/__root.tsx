@@ -23,6 +23,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     // Other redirect strategies are possible; see
     // https://github.com/TanStack/router/tree/main/examples/react/i18n-paraglide#offline-redirect
     if (typeof document !== 'undefined') {
+      document.documentElement.classList.add('dark')
       document.documentElement.setAttribute('lang', getLocale())
     }
   },
