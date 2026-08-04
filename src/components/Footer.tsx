@@ -1,7 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="surface-muted rounded-3xl p-4 text-center text-sm text-muted-foreground">
-      CTI Fusion Platform • Security posture insights for decision makers
+    <footer className="flex items-center justify-between gap-3 border-t border-line py-6 font-mono text-xs text-muted-foreground">
+      <div className="flex items-center gap-2.5">
+        <img src="/images/logo.png" alt="ThreatVerse" className="h-8 w-auto" />
+        <span>ThreatVerse v1.0</span>
+      </div>
+      <span>Predict attacks before they strike</span>
     </footer>
   )
 }

@@ -1,37 +1,87 @@
-type DonutChartProps = {
+import {
+  Cell,
+  Legend,
+  Pie,
+  PieChart as RechartsPieChart,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts'
+
+export type DonutSegment = {
+  name: string
   value: number
-  max?: number
-  label?: string
+  color: string
 }
 
-export default function DonutChart({ value, max = 100, label = 'Coverage' }: DonutChartProps) {
-  const radius = 46
-  const circumference = 2 * Math.PI * radius
-  const percent = Math.min(Math.max(value / max, 0), 1)
-  const dash = circumference * percent
+type DonutChartProps = {
+  data: DonutSegment[]
+  height?: number
+  innerRadius?: string | number
+  outerRadius?: string | number
+  centerValue?: string
+  centerLabel?: string
+  showLegend?: boolean
+}
 
+const TOOLTIP = {
+  backgroundColor: '#121416',
+  border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: 8,
+  fontSize: 12,
+  fontFamily: "'SF Mono','JetBrains Mono',Consolas,monospace",
+  color: '#E8EAF3',
+}
+
+export default function DonutChart({
+  data,
+  height = 260,
+  innerRadius = '62%',
+  outerRadius = '88%',
+  centerValue,
+  centerLabel,
+  showLegend = false,
+}: DonutChartProps) {
   return (
-    <div className="surface-card rounded-2xl p-5">
-      <div className="flex items-center justify-center">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r={radius} stroke="rgba(255,255,255,0.12)" strokeWidth="22" fill="none" />
-          <circle
-            cx="80"
-            cy="80"
-            r={radius}
-            stroke="var(--color-primary)"
-            strokeWidth="22"
-            strokeLinecap="round"
-            fill="none"
-            strokeDasharray={`${dash} ${circumference - dash}`}
-            transform="rotate(-90 80 80)"
+    <div className="relative" style={{ height, cursor: 'default' }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <RechartsPieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            innerRadius={innerRadius}
+            outerRadius={outerRadius}
+            paddingAngle={1}
+            stroke="#121416"
+            strokeWidth={2}
+            isAnimationActive={true}
+          >
+            {data.map((segment) => (
+              <Cell key={segment.name} fill={segment.color} />
+            ))}
+          </Pie>
+          <Tooltip
+            contentStyle={TOOLTIP}
+            itemStyle={{ color: '#E8EAF3' }}
+            labelStyle={{ color: '#8890AC' }}
           />
-        </svg>
-      </div>
-      <div className="-mt-12 text-center">
-        <p className="text-3xl font-semibold text-foreground">{value}%</p>
-        <p className="text-sm text-muted-foreground">{label}</p>
-      </div>
+          {showLegend ? (
+            <Legend
+              wrapperStyle={{ fontSize: 11, fontFamily: "'SF Mono','JetBrains Mono',Consolas,monospace" }}
+              iconType="square"
+              iconSize={9}
+            />
+          ) : null}
+        </RechartsPieChart>
+      </ResponsiveContainer>
+      {centerValue ? (
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <p className="text-2xl font-semibold text-foreground">{centerValue}</p>
+          {centerLabel ? (
+            <p className="text-xs text-muted-foreground">{centerLabel}</p>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   )
 }

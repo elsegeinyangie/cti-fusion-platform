@@ -1,34 +1,114 @@
-type SpiderChartProps = {
-  data: Array<{ label: string; value: number }>
+import {
+  Legend,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart as RechartsRadarChart,
+  ResponsiveContainer,
+  Tooltip,
+} from 'recharts'
+
+export type RadarSeries = {
+  name: string
+  dataKey: string
+  color: string
+  fill?: string
+  dashed?: boolean
 }
 
-export default function SpiderChart({ data }: SpiderChartProps) {
-  const center = 60
-  const radius = 42
-  const maxValue = Math.max(...data.map((item) => item.value), 1)
-  const points = data
-    .map((item, index) => {
-      const angle = (Math.PI / 2) + (index / data.length) * Math.PI * 2
-      const scaled = (item.value / maxValue) * radius
-      const x = center + Math.cos(angle) * scaled
-      const y = center - Math.sin(angle) * scaled
-      return `${x},${y}`
-    })
-    .join(' ')
+type SpiderChartProps = {
+  data: Array<Record<string, number | string>>
+  series: RadarSeries[]
+  angleDataKey: string
+  height?: number
+  domain?: [number | string, number | string]
+  tickFormatter?: (value: number) => string
+  showLegend?: boolean
+}
 
+const TICK = {
+  fontSize: 10,
+  fill: '#8890AC',
+  fontFamily: "'SF Mono','JetBrains Mono',Consolas,monospace",
+  fontWeight: 500,
+}
+
+const TOOLTIP = {
+  backgroundColor: '#121416',
+  border: '1px solid rgba(255,255,255,0.1)',
+  borderRadius: 8,
+  fontSize: 12,
+  fontFamily: "'SF Mono','JetBrains Mono',Consolas,monospace",
+  color: '#E8EAF3',
+}
+
+export default function SpiderChart({
+  data,
+  series,
+  angleDataKey,
+  height = 260,
+  domain,
+  tickFormatter,
+  showLegend = false,
+}: SpiderChartProps) {
   return (
-    <div className="surface-card rounded-2xl p-5">
-      <svg viewBox="0 0 120 120" className="h-48 w-full">
-        <polygon points="60,18 95,38 95,82 60,102 25,82 25,38" fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="1" />
-        <polygon points={points} fill="rgba(79, 184, 178, 0.22)" stroke="var(--color-primary)" strokeWidth="2" />
-      </svg>
-      <div className="mt-2 flex flex-wrap justify-center gap-2 text-xs text-muted-foreground">
-        {data.map((item) => (
-          <span key={item.label} className="rounded-full bg-muted px-2.5 py-1 text-muted-foreground">
-            {item.label}
-          </span>
-        ))}
-      </div>
+    <div style={{ position: 'relative' }}>
+      <ResponsiveContainer width="100%" height={height}>
+        <RechartsRadarChart data={data} outerRadius="90%">
+          <PolarGrid stroke="rgba(136, 144, 172, 0.18)" gridType="polygon" />
+          <PolarAngleAxis
+            dataKey={angleDataKey}
+            axisLine={false}
+            tickLine={false}
+            tick={{
+              ...TICK,
+              fill: '#8890AC',
+              fontSize: 10,
+            }}
+          />
+          <PolarRadiusAxis
+            domain={domain}
+            axisLine={false}
+            tickLine={false}
+            angle={60}
+            orientation="middle"
+            tick={{
+              ...TICK,
+              fill: '#8890AC82',
+              fontSize: 10,
+            }}
+            tickFormatter={tickFormatter}
+            tickCount={10}
+          />
+          <Tooltip
+            contentStyle={TOOLTIP}
+            itemStyle={{ color: '#E8EAF3' }}
+            labelStyle={{ color: '#8890AC' }}
+          />
+          {showLegend ? (
+            <Legend
+              wrapperStyle={{ fontSize: 11, fontFamily: "'SF Mono','JetBrains Mono',Consolas,monospace" }}
+              iconType="square"
+              iconSize={9}
+            />
+          ) : null}
+          {series.map((s) => (
+            <Radar
+              key={s.dataKey}
+              name={s.name}
+              dataKey={s.dataKey}
+              stroke={s.color}
+              strokeWidth={s.dashed ? 1.5 : 2.5}
+              strokeDasharray={s.dashed ? '4 3' : undefined}
+              fill={s.fill ?? 'rgba(0,0,0,0)'}
+              fillOpacity={s.dashed ? 0 : 0.24}
+              dot={{ fill: s.color, strokeWidth: 0, r: 4 }}
+              isAnimationActive={true}
+            />
+          ))}
+        </RechartsRadarChart>
+      </ResponsiveContainer>
     </div>
   )
 }

@@ -1,44 +1,54 @@
 type StatCardProps = {
   title: string
   value: string
-  description?: string
-  change?: string
+  suffix?: string
+  delta?: string
+  deltaDirection?: 'up' | 'down' | 'flat'
+  deltaTone?: 'good' | 'bad' | 'flat'
+  valueColor?: string
   variant?: 'standard' | 'grouped'
+}
+
+const DELTA_COLORS: Record<'good' | 'bad' | 'flat', string> = {
+  good: '#4F7CFF',
+  bad: '#E8A33D',
+  flat: 'var(--muted-foreground)',
 }
 
 export default function StatCard({
   title,
   value,
-  description,
-  change,
+  suffix,
+  delta,
+  deltaDirection = 'flat',
+  deltaTone = 'flat',
+  valueColor,
   variant = 'standard',
 }: StatCardProps) {
-  const isGrouped = variant === 'grouped'
-
-  return (
-    <div
-      className={`surface-card rounded-2xl p-5 ${isGrouped ? 'bg-primary text-primary-foreground' : 'text-foreground'}`}
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className={`text-sm ${isGrouped ? 'text-primary-foreground/80' : 'text-muted-foreground'}`}>
-            {title}
-          </p>
-          <p className="mt-2 text-3xl font-semibold">{value}</p>
-        </div>
-        {change ? (
-          <span
-            className={`rounded-full px-2.5 py-1 text-xs font-medium ${isGrouped ? 'bg-primary-foreground/15 text-primary-foreground' : 'bg-secondary text-secondary-foreground'}`}
-          >
-            {change}
-          </span>
+  if (variant === 'grouped') {
+    const arrow =
+      deltaDirection === 'up' ? '↑ ' : deltaDirection === 'down' ? '↓ ' : ''
+    return (
+      <div className="metric-card">
+        <div className="label">{title}</div>
+        <div className="value">{value}</div>
+        {delta ? (
+          <div className="delta" style={{ color: DELTA_COLORS[deltaTone] }}>
+            {arrow}
+            {delta}
+          </div>
         ) : null}
       </div>
-      {description ? (
-        <p className={`mt-3 text-sm ${isGrouped ? 'text-primary-foreground/75' : 'text-muted-foreground'}`}>
-          {description}
-        </p>
-      ) : null}
+    )
+  }
+
+  return (
+    <div className="mini-stat">
+      <p className="label">{title}</p>
+      <p className="value" style={valueColor ? { color: valueColor } : undefined}>
+        {value}
+        {suffix ? <span className="suffix"> {suffix}</span> : null}
+      </p>
     </div>
   )
 }
