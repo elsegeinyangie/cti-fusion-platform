@@ -3,7 +3,7 @@ import { useState } from 'react'
 type DetailCardProps = {
   id: string
   status: string
-  severity?: 'crit' | 'high' | 'med'
+  severity?: 'crit' | 'high' | 'med' | 'low'
   badges?: string[]
   confidence?: number
   severityLabel?: string
@@ -14,7 +14,7 @@ type DetailCardProps = {
 export default function DetailCard({
   id,
   status,
-  severity = 'med',
+  severity = 'low',
   badges = [],
   confidence,
   severityLabel,
@@ -23,9 +23,9 @@ export default function DetailCard({
 }: DetailCardProps) {
   const [open, setOpen] = useState(false)
 
-  const sevClass = severity === 'crit' ? 'crit' : severity === 'high' ? 'high' : 'med'
-  const sevColor = severity === 'crit' ? 'sev-crit' : severity === 'high' ? 'sev-high' : 'sev-med'
-  const pillClass = severity === 'crit' ? 'pill-crit' : severity === 'high' ? 'pill-high' : 'pill-med'
+  const sevClass = severity === 'crit' ? 'crit' : severity === 'high' ? 'high' : severity === 'med' ? 'med' : 'low'
+  const sevColor = severity === 'crit' ? 'sev-crit' : severity === 'high' ? 'sev-high' : severity === 'med' ? 'sev-med' : 'sev-low'
+  const pillClass = severity === 'crit' ? 'pill-crit' : severity === 'high' ? 'pill-high' : severity === 'med' ? 'pill-med' : 'pill-low'
 
   return (
     <div
