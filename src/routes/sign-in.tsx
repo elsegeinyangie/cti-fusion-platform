@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 
 import { LogoIcon } from '../components/icons/LogoIcon'
+import { setAuthenticated } from '#/lib/auth'
 
 export const Route = createFileRoute('/sign-in')({
   component: SignInPage,
@@ -20,7 +21,8 @@ function SignInPage() {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    // Presentation stub: no real auth, just enter the dashboard.
+    // Presentation stub: no real auth. Set the flag, then enter the dashboard.
+    setAuthenticated()
     navigate({ to: '/' })
   }
 
