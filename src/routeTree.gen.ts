@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ComplianceRouteImport } from './routes/compliance'
-import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as InfoSpecPostureRouteImport } from './routes/info-spec-posture'
+import { Route as SignInRouteImport } from './routes/sign-in'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -30,14 +30,14 @@ const ComplianceRoute = ComplianceRouteImport.update({
   path: '/compliance',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const InfoSpecPostureRoute = InfoSpecPostureRouteImport.update({
   id: '/info-spec-posture',
   path: '/info-spec-posture',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,49 +45,44 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/compliance': typeof ComplianceRoute
-  '/sign-in': typeof SignInRoute
   '/info-spec-posture': typeof InfoSpecPostureRoute
+  '/sign-in': typeof SignInRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/compliance': typeof ComplianceRoute
-  '/sign-in': typeof SignInRoute
   '/info-spec-posture': typeof InfoSpecPostureRoute
+  '/sign-in': typeof SignInRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/compliance': typeof ComplianceRoute
-  '/sign-in': typeof SignInRoute
   '/info-spec-posture': typeof InfoSpecPostureRoute
+  '/sign-in': typeof SignInRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/admin'
-    | '/compliance'
-    | '/sign-in'
-    | '/info-spec-posture'
+  fullPaths: '/' | '/admin' | '/compliance' | '/info-spec-posture' | '/sign-in'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/compliance' | '/sign-in' | '/info-spec-posture'
+  to: '/' | '/admin' | '/compliance' | '/info-spec-posture' | '/sign-in'
   id:
     | '__root__'
     | '/'
     | '/admin'
     | '/compliance'
-    | '/sign-in'
     | '/info-spec-posture'
+    | '/sign-in'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   ComplianceRoute: typeof ComplianceRoute
-  SignInRoute: typeof SignInRoute
   InfoSpecPostureRoute: typeof InfoSpecPostureRoute
+  SignInRoute: typeof SignInRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -113,18 +108,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComplianceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/info-spec-posture': {
       id: '/info-spec-posture'
       path: '/info-spec-posture'
       fullPath: '/info-spec-posture'
       preLoaderRoute: typeof InfoSpecPostureRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -134,8 +129,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   ComplianceRoute: ComplianceRoute,
-  SignInRoute: SignInRoute,
   InfoSpecPostureRoute: InfoSpecPostureRoute,
+  SignInRoute: SignInRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
