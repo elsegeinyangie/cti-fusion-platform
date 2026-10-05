@@ -1,4 +1,7 @@
-import { PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+import { useNavigate } from '@tanstack/react-router'
+import { LogOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
+
+import { clearAuthenticated, isAuthEnabled } from '#/lib/auth'
 
 export function BrandLogo() {
   return (
@@ -27,6 +30,15 @@ type HeaderProps = {
 }
 
 export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
+  const navigate = useNavigate()
+
+  // Only meaningful when the auth gate is on: clears the cookie so the root
+  // beforeLoad bounces the next navigation back to the sign-in screen.
+  const handleSignOut = () => {
+    clearAuthenticated()
+    navigate({ to: '/sign-in' })
+  }
+
   return (
     <header className="sticky top-0 z-30 flex h-20.5 items-center border-b border-line bg-background/75 px-4 backdrop-blur-md lg:px-6 xl:px-8">
       <button
@@ -54,6 +66,16 @@ export default function Header({ sidebarOpen, onToggleSidebar }: HeaderProps) {
       </div>
       <div className="ms-auto flex items-center gap-2">
         {/* <LiveIndicator /> */}
+        {isAuthEnabled() ? (
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-foreground"
+          >
+            <LogOut className="h-4 w-4" />
+            Sign out
+          </button>
+        ) : null}
       </div>
     </header>
   )

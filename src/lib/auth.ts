@@ -4,6 +4,14 @@
 // the demo shows the login screen or the dashboard.
 export const AUTH_COOKIE = 'tv_auth'
 
+// Set to false to skip the login gate entirely and open straight on the
+// dashboard. Flip back to true to restore the sign-in flow. While disabled the
+// sign-in route stays reachable but nothing redirects to it, and the logout
+// button is hidden since there is no session to end.
+export function isAuthEnabled(): boolean {
+  return false
+}
+
 const MAX_AGE_SECONDS = 60 * 60 * 24 // 1 day
 
 export function readAuthCookieClient(): boolean {

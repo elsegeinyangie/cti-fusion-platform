@@ -10,7 +10,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 
 import { getLocale } from '#/paraglide/runtime'
-import { readAuthCookieClient } from '#/lib/auth'
+import { isAuthEnabled, readAuthCookieClient } from '#/lib/auth'
 import { getSession } from '#/server/session'
 
 import appCss from '../styles.css?url'
@@ -31,6 +31,8 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       document.documentElement.classList.add('dark')
       document.documentElement.setAttribute('lang', getLocale())
     }
+
+    if (!isAuthEnabled()) return
 
     // Presentation auth gate: read the flag from the cookie (client) or the
     // request (server), then keep unauthenticated visitors on the login page
