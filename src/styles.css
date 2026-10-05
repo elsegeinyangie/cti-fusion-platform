@@ -320,7 +320,7 @@
   }
 
   .subtitle {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 12px;
     color: var(--muted-foreground);
     letter-spacing: 0.04em;
@@ -328,7 +328,7 @@
   }
 
   .subhead-note {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 13px;
     color: var(--muted-foreground);
     font-weight: 300;
@@ -337,7 +337,7 @@
   }
 
   .section-label {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 16px;
     margin-bottom: 0.5rem;
     align-self: flex-start;
@@ -422,7 +422,7 @@
   .legend-row {
     display: flex;
     margin-bottom: 12px;
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 11.5px;
     color: var(--muted-foreground);
     flex-wrap: wrap;
@@ -508,13 +508,13 @@
   }
 
   .case-id {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 12px;
     color: var(--muted-foreground);
   }
 
   .status-pill {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 11px;
     padding: 3px 10px;
     letter-spacing: 0.03em;
@@ -543,7 +543,7 @@
   }
 
   .src-badge {
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 11px;
     background: var(--secondary);
     color: var(--muted-foreground);
@@ -567,7 +567,7 @@
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px dashed var(--line);
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 12px;
     color: var(--muted-foreground);
   }
@@ -578,7 +578,7 @@
 
   .case-bottom {
     display: flex;
-    font-family: var(--font-);
+    font-family: var(--font-sans);
     font-size: 12px;
     color: var(--muted-foreground);
     margin-top: 10px;
@@ -706,7 +706,7 @@ code {
 }
 .feature-card:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--lagoon-deep) 35%, var(--line));
+  border-color: color-mix(in oklab, var(--lagoon) 35%, var(--line));
 }
 
 button,

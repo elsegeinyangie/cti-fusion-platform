@@ -39,7 +39,7 @@ const TOOLTIP = {
   color: '#E8EAF3',
 }
 
-function GradientSector(props: PieSectorShapeProps<DonutSegment>) {
+function GradientSector(props: PieSectorShapeProps) {
   const color = props.payload.color
   const fillId = `donut-gradient-${props.index}`
   return (
